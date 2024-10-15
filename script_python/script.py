@@ -2,7 +2,7 @@ import zipfile
 import pandas as pd
 import os
 
-zip_path = r'C:\Users\dudaf\flask_api_data\script_python\dados (2).zip'
+zip_path = r'script_python\dados (2).zip'
 
 # Função para extrair arquivos zip
 def descompactar_arquivo(zip_path):

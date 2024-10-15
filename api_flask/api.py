@@ -4,7 +4,7 @@ import pandas as pd
 app = Flask(__name__)
 
 # Caminho csv
-caminho_dados = r'C:\Users\dudaf\flask_api_data\api_flask\tipos.csv'
+caminho_dados = r'api_flask\tipos.csv'
 
 tipos_df = pd.read_csv(caminho_dados)
 
@@ -29,4 +29,3 @@ def get_tipo(id):
 # Iniciar o servidor Flask
 if __name__ == '__main__':
     app.run(debug=True)
-    
