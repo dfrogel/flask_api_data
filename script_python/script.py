@@ -39,12 +39,20 @@ def processar_arquivos():
     print("\nArquivos removidos com sucesso!")
 
 # Função para gerar o arquivo sql
-def gerar_sql(dados):
+def gerar_sql(dados, lotes = 10 ):
     sql_path = os.path.join(os.path.dirname(__file__), 'insert-dados.sql')
     with open(sql_path, 'w') as f:
-        for _, row in dados.iterrows():
-            sql = f"INSERT INTO dados_finais (created_at, product_code, customer_code, status, tipo, nome_tipo) VALUES ({row['created_at']}, {row['product_code']}, {row['customer_code']}, '{row['status']}', {row['tipo']}, '{row['nome_tipo']}');\n"
-            f.write(sql)
+        for i in range(0, len(dados), lotes):
+            dados_lote = dados[i:i+lotes]
+            f.write(f"--Lote {i//lotes +1}\n")
+            f.write(f"INSERT INTO dados_finais (created_at, product_code, customer_code, status, tipo, nome_tipo) VALUES \n")
+
+            values = []
+            for _, row in dados_lote.iterrows():
+                linha = f"('{row['created_at']}', {row['product_code']}, {row['customer_code']}, '{row['status']}', {row['tipo']}, '{row['nome_tipo']}')"
+                values.append(linha)
+
+            f.write(",\n".join(values) + ";\n")
     
         # Query diária de agrupamento de tipos
         query = """
